@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/jquery-1.7.2.min.js"></script>
+    <link rel="stylesheet" href="style/bootstrap.css">
+    <script src="js/bootstrap.js"></script>
+    <script>
+        function logi() {
+            var passWord=document.getElementById('id_password').value;
+            var userName=document.getElementById('id_username').value;
+                var data = {};
+                data.userName = userName;
+                data.passWord = passWord;
+                $.ajax({
+                    url : "login.php",
+                    type : "post",
+                    data : data,
+                    success : function(json){
+                        $json=json.substring(0,4);
+                        if (json=='登陆成功'){
+                            window.location.href='applications.html';
+                        }else {
+                            location.reload();
+                        }
+                    },
+                    error : function () {
+                        alert("未知错误");
+                    }
+                });
+            }
+    </script>
+</head>
+<body>
+    <div class="container d-flex flex-column mt-4 pt-5" style="width: 300px">
+        <h4 class="text-center mb-4">登录</h4>
+        <form class="border rounded c_LoginBox px-4 py-5 mx-auto">
+            <div class="form-group">
+                <label for="id_username">用户名</label>
+                <input type="text" class="form-control" id="id_username" placeholder="输入用户名">
+            </div>
+            <div class="form-group">
+                <label for="id_password">密码</label>
+                <input type="password" class="form-control" id="id_password" placeholder="输入密码">
+            </div>
+        </form>
+        <button type="button" class="btn btn-primary w-100 mt-4" onclick="logi()">登录</button>
+        <p class="c_LoginTip border rounded  px-3 py-2 mx-auto mt-3">还没有账号？<a href="register.html">现在注册</a></p>
+    </div>
+</body>
+</html>

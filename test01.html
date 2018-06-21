@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script type="application/javascript" src="js/jquery-1.7.2.min.js"></script>
+    <title>无标题文档</title>
+    <script type="application/javascript">
+        function onClik(){
+            var data = $("#form1").serialize(); //自动将form表单封装成json
+            data = JSON.stringify(data);
+            alert(data);
+            //var jsonuserinfo = $('#form1').serializeObject();
+            //alert(JSON.stringify(jsonuserinfo));
+            $.ajax({
+                    url : "test.php",
+                    type : "post",
+                    dataType : 'json',//返回数据格式
+                    data : data,
+                    success : function(date){
+                        alert(date);
+                        }
+                    });
+                }
+    </script>
+</head>
+
+<body>
+<form id="form1" name="form1" method="post" action="">
+    <table width="708" border="1">
+        <tr>
+            <td>
+                姓名：
+            </td>
+            <td>
+                <input type="text" name="userName" id="userName"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                身份证号：
+            </td>
+            <td>
+                <input type="text" name="idCard" id="idCard"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                手机号：
+            </td>
+            <td>
+                <input type="text" name="telNum" id="telNum"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                宠物年龄:
+            </td>
+            <td>
+                <input type="text" name="petAge" id="petAge"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                芯片号：
+            </td>
+            <td>
+                <input type="text" name="xpId" id="xpId"/>
+            </td>
+        </tr>
+    </table>
+    <input type="button" name="submit" onclick="onClik();" value="提交"/>
+</form>
+</body>
+</html>

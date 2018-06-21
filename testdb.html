@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>无标题文档</title>
+    <script src="js/jquery-1.7.2.min.js"></script>
+    <script>
+        function weqbby() {
+            $akh=document.getElementById("adsf").value;
+            $.ajax({
+                type: 'post',
+                url: 'test.php',
+                data: "name="+$akh,
+                success: function (data) { //返回json结果
+                    document.getElementById('we').innerHTML = data;
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+<input type="text" id="adsf"/>
+<a href="###" onclick="weqbby()" id="add_table">添加数据</a>
+<div id="we">
+
+</div>
+</body>
+

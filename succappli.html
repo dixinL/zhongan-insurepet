@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/jquery-1.7.2.min.js"></script>
+    <link rel="stylesheet" href="style/bootstrap.css">
+    <script src="js/bootstrap.js"></script>
+    <style>
+        body{
+            font-size: 16px;
+        }
+        span{
+            font-size: 18px;
+        }
+        .tdd{
+            height: 20px;
+            text-align: right;
+        }
+        #reName button{
+            margin: 2px;
+        }
+        .inp{
+            font-size: 18px;
+            width: 150%;
+            height: 2rem;
+            text-align: left;
+            border: none;
+            outline:medium;
+        }
+    </style>
+    <script>
+        function recoverName() {
+            var xhr = new XMLHttpRequest();
+            xhr.open('get','tijiao_2.php');
+            xhr.onload = function () {
+                document.getElementById('reName').innerHTML=xhr.responseText;
+            }
+            xhr.send(null);
+        }
+        function recoverMessage(messId) {
+            var ordId = {};
+            ordId.messageId = messId;
+            $.ajax({
+                url : "renzheng_2.php",
+                type : "post",
+                datatype:'json',
+                data : ordId,
+                success : function(json){
+                    var json = eval("("+json+")");//将json类型字符串转换为json对象
+                    $("#channelOrderNo").val(json.channelOrderNo);
+                    $("#insuredUserName").val(json.insuredUserName);
+                    $("#insuredCertiType").val(json.insuredCertiType);
+                    $("#insuredCertiNo").val(json.insuredCertiNo);
+                    $("#insuredBirthDay").val(json.insuredBirthDay);
+                    $("#insuredGender").val(json.insuredGender);
+                    $("#insuredPhone").val(json.insuredPhone);
+                    $("#birthday").val(json.birthday);
+                    $("#dogCode").val(json.dogCode);
+                    $("#contactMail").val(json.contactMail);
+                    $("#premiumPayTime").val(json.premiumPayTime);
+                    $("#insureDate").val(json.insureDate);
+                },
+                error : function () {
+                    alert("未知错误");
+                }
+            });
+        }
+
+    </script>
+</head>
+<body onload="recoverName()">
+<div class="container-fluid" style="padding: 10px 50px">
+    <div class="row">
+        <div class="col-lg-12" style="padding: 0px 50px">
+            <h3>已通过审核</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div id="reName" class="col-lg-12" style="padding: 5px 50px">
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12" style="background-color: #EFEFEF">
+            <div style="margin: 5px 20px;padding: 20px">
+                <div style="width: 500px;margin: auto">
+                    <table>
+                        <tr>
+                            <td class="tdd">
+                                渠道订单号:
+                            </td>
+                            <td>
+                                <input type="text" id="channelOrderNo" class="inp">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tdd">
+                                投保人姓名:
+                            </td>
+                            <td>
+                                <input type="text" id="insuredUserName" class="inp">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tdd">
+                                投保人证件类型:
+                            </td>
+                            <td>
+                                <input type="text" id="insuredCertiType" class="inp">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tdd">
+                                投保人证件号:
+                            </td>
+                            <td>
+                                <input type="text" id="insuredCertiNo" class="inp">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tdd">
+                                投保人生日:
+                            </td>
+                            <td>
+                                <input type="text" id="insuredBirthDay" class="inp">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tdd">
+                                投保人性别:
+                            </td>
+                            <td>
+                                <input type="text" id="insuredGender" class="inp">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tdd">
+                                投保人手机:
+                            </td>
+                            <td>
+                                <input type="text" id="insuredPhone" class="inp">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tdd">
+                                宠物生日:
+                            </td>
+                            <td>
+                                <input type="text" id="birthday" class="inp">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tdd">
+                                宠物唯一识别号:
+                            </td>
+                            <td>
+                                <input type="text" id="dogCode" class="inp">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tdd">
+                                电子保单发送邮箱:
+                            </td>
+                            <td>
+                                <input type="text" id="contactMail" class="inp">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tdd">
+                                保费金额:
+                            </td>
+                            <td>
+                                <span>780元</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tdd">
+                                支付时间:
+                            </td>
+                            <td>
+                                <input type="text" disabled id="premiumPayTime" class="inp">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tdd">
+                                投保时间:
+                            </td>
+                            <td>
+                                <input type="text" disabled id="insureDate" class="inp">
+                            </td>
+                        </tr>
+                    </table>
+                    <input type="text" id="contractURL" onchange="downLoadImg()" value="###" style="display: none">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div  class="col-lg-12" style="padding: 10px 50px">
+            <a href="applications.html"><button>未通过审核</button></a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

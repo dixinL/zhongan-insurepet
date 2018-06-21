@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="js/jquery-1.7.2.min.js"></script>
+    <link rel="stylesheet" href="style/bootstrap.css">
+    <script src="js/bootstrap.js"></script>
+    <title>Title</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+
+        }
+        html{
+            font-size: 0.6rem;
+        }
+        #header{
+            height: 4rem;
+        }
+        #header #preview {
+            margin-top: 1rem;
+            margin-left: 1rem;
+        }
+        #header #title{
+            margin-top: -3.5rem;
+        }
+        #header #title p{
+            height: 5rem;
+            line-height: 5rem;
+            font-size: 2rem;
+            text-align: center;
+        }
+        #content{
+            width: 100%;
+            font-size: 1.5rem;
+        }
+        #content table{
+            width: 100%;
+        }
+        #content table td{
+            height: 3rem;
+            border-bottom:1px dashed #5e5e5e;
+        }
+        .inp{
+            width: 70%;
+            height: 2rem;
+            text-align: left;
+            border: none;
+            outline:medium;
+        }
+        .le{
+            padding-left: 1rem;
+            width: 9rem;
+        }
+        #footer{
+            margin-top: 50px;
+        }
+        .sub{
+            width: 90%;
+            height: 45px;
+            font-size: 1.8rem;
+            -moz-border-radius: 0.5rem;
+            -webkit-border-radius: 0.5rem;
+            border-radius: 0.5rem;
+            margin-left: 5%;
+            margin-right: 5%;
+            margin-bottom: 20%;
+            background-color: #4cae4c;
+            color: white;
+        }
+    </style>
+    <script type="text/javascript">     //对浏览器的UserAgent进行正则匹配，不含有微信独有标识的则为其他浏览器
+    var useragent = navigator.userAgent;
+    if (useragent.match(/MicroMessenger/i) != 'MicroMessenger') {         //这里警告框会阻塞当前页面继续加载
+        alert('已禁止本次访问：您必须使用微信内置浏览器访问本页面！');         //以下代码是用javascript强行关闭当前页面
+        var opened = window.open('about:blank', '_self');
+        opened.opener = null;
+        opened.close();
+    }
+    </script>
+
+</head>
+<body>
+<div id="header">
+    <div id="preview">
+        <img src="image/exit.png">
+    </div>
+    <div id="title">
+        <p>投保详细信息页</p>
+    </div>
+</div>
+<div id="content">
+    <table>
+        <form id="form1">
+            <tr>
+                <td class="le">
+                    投保人姓名*
+                </td>
+                <td>
+                    <input type="text" id="insuredUserName" class="inp">
+                </td>
+            </tr>
+            <tr>
+                <td class="le">
+                    证件类型*
+                </td>
+                <td>
+                    <select id="insuredCertiType" class="inp">
+                        <option value="I">身份证</option>
+                        <option value="P">护照</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="le">
+                    证件号*
+                </td>
+                <td>
+                    <input type="text" id="insuredCertiNo" class="inp">
+                </td>
+            </tr>
+            <tr>
+                <td class="le">
+                    手机号*
+                </td>
+                <td>
+                    <input type="text" id="insuredPhone" class="inp">
+                </td>
+            </tr>
+            <tr>
+                <td class="le">
+                    性别*
+                </td>
+                <td>
+                    <input type="text" id="insuredGender" class="inp">
+                </td>
+            </tr>
+            <tr>
+                <td class="le">
+                    出生日期*
+                </td>
+                <td>
+                    <input type="text" id="insuredBirthDay" class="inp">
+                </td>
+            </tr>
+            <tr>
+                <td class="le">
+                    电子芯片号*
+                </td>
+                <td>
+                    <input type="text" id="dogCode" class="inp">
+                </td>
+            </tr>
+            <tr>
+                <td class="le">
+                    宠物出生日*
+                </td>
+                <td>
+                    <input type="text" id="birthday" class="inp" placeholder="如20180101">
+                </td>
+            </tr>
+            <tr>
+                <td class="le">
+                    保费金额
+                </td>
+                <td>
+                    <input type="text" id="premium" class="inp" readonly="readonly" value="780元">
+                </td>
+            </tr>
+            <tr>
+                <td class="le">
+                    邮箱
+                </td>
+                <td>
+                    <input type="text" id="contactMail" class="inp" placeholder="可发送电子发票">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" class="le">
+                    <input type="checkbox" name="ch" id="check">
+                    <span>阅读并同意《投保须知》 《保险条款》</span>
+                </td>
+            </tr>
+        </form>
+    </table>
+</div>
+<div id="footer">
+    <button type="button" id="sub" class="sub">确 认</button>
+</div>
+<script>
+    var certiNo=document.getElementById("insuredCertiNo");
+    var certiType=document.getElementById("insuredCertiType");
+    var oBtn=document.getElementById("sub");
+    var oCheck=document.getElementById("check");
+    certiType.onchange=function () {
+        certiNo.value="";
+        document.getElementById('insuredGender').value="";
+        document.getElementById('insuredBirthDay').value="";
+    }
+    certiNo.onchange=function () {
+        if (certiType.value=='I'){
+            var insuredCN = certiNo.value;
+            $gender=insuredCN.substring(16,17);
+            if ($gender/1%2=='1'){
+                document.getElementById('insuredGender').value='男';
+            }else {
+                document.getElementById('insuredGender').value='女';
+            }
+            $birthDay=insuredCN.substring(6,14);
+            document.getElementById('insuredBirthDay').value= $birthDay;
+        }
+    }
+    Date.prototype.Format = function (fmt) {
+        var o = {
+            "M+": this.getMonth() + 1, //月份
+            "d+": this.getDate(), //日
+            "h+": this.getHours(), //小时
+            "m+": this.getMinutes(), //分
+            "s+": this.getSeconds(), //秒
+            "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+            "S": this.getMilliseconds() //毫秒
+        };
+        if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+        for (var k in o)
+            if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+        return fmt;
+    }
+    $insureDate = new Date().Format("yyyyMMddhhmmss");
+    $premiumPayTime = new Date().Format("yyyy-MM-dd hh:mm:ss");
+    oBtn.onclick=function () {
+        if(oCheck.checked==true){
+            $insuredCertiNo=document.getElementById("insuredCertiNo").value;
+            $insuredCertiType=document.getElementById("insuredCertiType").value;
+            $insuredGender=document.getElementById("insuredGender").value;
+            $insuredBirthDay=document.getElementById("insuredBirthDay").value;
+            $insuredUserName=document.getElementById("insuredUserName").value;
+            $insuredPhone=document.getElementById("insuredPhone").value;
+            $dogCode=document.getElementById("dogCode").value;
+            $birthday=document.getElementById("birthday").value;
+            $certificateNo=$insuredCertiNo+'_'+$insuredCertiType;
+            $contactMail=document.getElementById("contactMail").value;
+            if ($insuredGender=='男'){
+                $insuredGender='M';
+            }else if ($insuredGender=='女'){
+                $insuredGender='F';
+            }
+                if ($insuredCertiNo!=="" && $insuredUserName!=="" && $insuredGender!=="" && $insuredBirthDay!=="" && $insuredPhone!=="" && $dogCode!=="" && $birthday!==""){
+                    if ($contactMail==""){
+                        $requireInvoice="N";
+                    }else {
+                        $requireInvoice="Y";
+                    }
+                    var bizContent = {};
+                    bizContent.insuredGender = $insuredGender;
+                    bizContent.insuredBirthDay = $insuredBirthDay;
+                    bizContent.policyHolderBirthDate = $insuredBirthDay;
+                    bizContent.insuredCertiNo = $insuredCertiNo;
+                    bizContent.policyHolderCertiNo = $insuredCertiNo;
+                    bizContent.insuredCertiType = $insuredCertiType;
+                    bizContent.policyHolderCertiType = $insuredCertiType;
+                    bizContent.insuredUserName = $insuredUserName;
+                    bizContent.policyHolderUserName = $insuredUserName;
+                    bizContent.insuredPhone = $insuredPhone;
+                    bizContent.policyHolderPhone = $insuredPhone;
+                    bizContent.insureDate = $insureDate;
+                    bizContent.premiumPayTime = $premiumPayTime;
+                    bizContent.requireInvoice = $requireInvoice;
+                    bizContent.contactMail = $contactMail;
+                    bizContent.birthday = $birthday;
+                    bizContent.dogCode = $dogCode;
+                    //var data = JSON.stringify(data) ;
+                    $.ajax({
+                        url : "testt.php",
+                        type : "post",
+                        data : bizContent,
+                        success : function(json){
+                            alert(json);
+                            location.reload();
+                        },
+                        error : function () {
+                            alert("未知错误");
+                        }
+                    });
+                }
+                else {
+                    alert("请填写完整该核验单");
+                }
+        }
+        else{
+            alert("请勾选《投保须知》《保险条款》")
+        }
+    }
+</script>
+</body>
+</html>
+
+
+
